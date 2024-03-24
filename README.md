@@ -1,2 +1,2 @@
-# elysion-pre.github.io
+# Misskey Plugins
 プラグイン置き場
