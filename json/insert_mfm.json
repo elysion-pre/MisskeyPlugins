@@ -1,4 +1,4 @@
 {
   "type": "plugin",
-  "data": "/// @ 0.16.0\n### {\n  id: \"hoge\"\n  nane: \"insert mfm plugin\"\n  version: \"1.1.0\"\n  author: \"elysion\"\n  description: \"hoge\"\n}"
+  "data": "/// @ 0.16.0\n### {\n  id: \"hoge\"\n  name: \"insert mfm plugin\"\n  version: \"1.1.0\"\n  author: \"elysion\"\n  description: \"hoge\"\n}"
 }
