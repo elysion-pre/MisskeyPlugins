@@ -1,4 +1,2 @@
 # elysion-pre.github.io
-test
-hoge
-gh-pages brunch
+プラグイン置き場
