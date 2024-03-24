@@ -1,0 +1,439 @@
+/// @ 0.16.0
+### {
+  id: "2f8c02e8-2e8c-dca0-f4cd-ea302fdafbb2"
+  name: "MFM挿入ボタンを追加するプラグイン"
+  version: "1.1.0"
+  author: "elysion"
+  description: "MFM挿入ボタンを投稿メニューに追加します。"
+  config: {
+    x2_enable: {
+      type: "boolean"
+      label: "大きく(x2): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: true
+    }
+    x2_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：大きく(x2)"
+    }
+    x2_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(x2) 以下から、サイズ変更が可能。 x2,x3,x4"
+      default: "x2"
+    }
+    position_enable: {
+      type: "boolean"
+      label: "位置(position): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    position_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：位置(position)"
+    }
+    position_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(position.x=0,y=0)"
+      default: "position.x=0,y=0"
+    }
+    scale_enable: {
+      type: "boolean"
+      label: "拡大(scale): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    scale_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：拡大(scale)"
+    }
+    scale_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(scale.x=1,y=1)"
+      default: "scale.x=1,y=1"
+    }
+    rotate_enable: {
+      type: "boolean"
+      label: "回転(rotate): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    rotate_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：回転(rotate)"
+    }
+    rotate_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(rotate.deg=0)"
+      default: "rotate.deg=0"
+    }
+    flip_enable: {
+      type: "boolean"
+      label: "反転(flip): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    flip_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：反転(flip)"
+    }
+    flip_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(flip) 以下から反転方向指定可能。 flip, flip.v, flip.h, flip.v,alternate, flip.h,alternate"
+      default: "flip"
+    }
+    bg_enable: {
+      type: "boolean"
+      label: "背景色(bg): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    bg_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：背景色(bg)"
+    }
+    bg_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(bg.color=0f0)"
+      default: "bg.color=0f0"
+    }
+    fg_enable: {
+      type: "boolean"
+      label: "文字色(fg): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    fg_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：文字色(fg)"
+    }
+    fg_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(fg.color=ff0000) f00等でも指定可能"
+      default: "fg.color=ff0000"
+    }
+    rainbow_enable: {
+      type: "boolean"
+      label: "虹(rainbow): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    rainbow_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：虹(rainbow)"
+    }
+    rainbow_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(rainbow) bgやfg等組合せ可能。 $[fg.color=f00 $[rainbow レインボー]]"
+      default: "rainbow"
+    }
+    sparkle_enable: {
+      type: "boolean"
+      label: "キラキラ(sparkle): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    sparkle_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：キラキラ(sparkle)"
+    }
+    sparkle_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(sparkle)"
+      default: "sparkle"
+    }
+    blur_enable: {
+      type: "boolean"
+      label: "ぼかし(blur): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    blur_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：ぼかし(blur)"
+    }
+    blur_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(blur)"
+      default: "blur"
+    }
+    bold_enable: {
+      type: "boolean"
+      label: "太字(bold): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    bold_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：太字(bold)"
+    }
+    bold_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(**) **さんまぶり**"
+      default: "**"
+    }
+    italic_enable: {
+      type: "boolean"
+      label: "斜体(italic): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    italic_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：斜体(italic)"
+    }
+    italic_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(i) <i>さんまぶり</i>"
+      default: "i"
+    }
+    strikethrough_enable: {
+      type: "boolean"
+      label: "取り消し線(strikethrough): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    strikethrough_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：取り消し線"
+    }
+    strikethrough_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(~~) ~~さんまぶり~~"
+      default: "~~"
+    }
+    small_enable: {
+      type: "boolean"
+      label: "目立たなくする(small): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    small_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：目立たなくする(small)"
+    }
+    small_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(small) <small>さんまぶり</small>"
+      default: "small"
+    }
+    center_enable: {
+      type: "boolean"
+      label: "中央揃え(center): 無効/有効"
+      description: "メニューにcenterを表示するかどうか"
+      default: false
+    }
+    center_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：中央揃え(center)"
+    }
+    center_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(center) <center>さんまぶり</center>"
+      default: "center"
+    }
+    plain_enable: {
+      type: "boolean"
+      label: "プレーン(plain): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    plain_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：プレーン(plain)"
+    }
+    plain_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(plain) <plain><i>**さんまぶり**</i></plain>"
+      default: "plain"
+    }
+    quote_enable: {
+      type: "boolean"
+      label: "引用(quote): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    quote_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：引用(quote)"
+    }
+    quote_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(>) > さんまぶり"
+      default: ">"
+    }
+    inlinecode_enable: {
+      type: "boolean"
+      label: "コード(インライン): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    inlinecode_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：コード（インライン）"
+    }
+    inlinecode_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(`) `<: Hello, world!`"
+      default: "`"
+    }
+    codeblock_enable: {
+      type: "boolean"
+      label: "コードブロック(codeblock): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: false
+    }
+    codeblock_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "挿入：コードブロック"
+    }
+    codeblock_arg: {
+      type: "string"
+      label: "MFM"
+      description: "既定値(```) ```codeblock```"
+      default: "```"
+    }
+    clear_enable: {
+      type: "boolean"
+      label: "全消し(clear): 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: true
+    }
+    clear_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "全消し"
+    }
+    clear_arg: {
+      type: "string"
+      label: "command"
+      description: "既定値(clear) 変更不可"
+      default: "clear"
+    }
+    clear_dialog_enable: {
+      type: "boolean"
+      label: "全消し時の確認ダイアログ: 無効/有効"
+      description: "全消し時の確認ダイアログを表示するかどうか"
+      default: true
+    }
+  }
+}
+
+let config_data = [
+  [Plugin:config.x2_enable, Plugin:config.x2_name, Plugin:config.x2_arg]
+  [Plugin:config.position_enable, Plugin:config.position_name, Plugin:config.position_arg]
+  [Plugin:config.scale_enable, Plugin:config.scale_name, Plugin:config.scale_arg]
+  [Plugin:config.rotate_enable, Plugin:config.rotate_name, Plugin:config.rotate_arg]
+  [Plugin:config.flip_enable, Plugin:config.flip_name, Plugin:config.flip_arg]
+  [Plugin:config.bg_enable, Plugin:config.bg_name, Plugin:config.bg_arg]
+  [Plugin:config.fg_enable, Plugin:config.fg_name, Plugin:config.fg_arg]
+  [Plugin:config.rainbow_enable, Plugin:config.rainbow_name, Plugin:config.rainbow_arg]
+  [Plugin:config.sparkle_enable, Plugin:config.sparkle_name, Plugin:config.sparkle_arg]
+  [Plugin:config.blur_enable, Plugin:config.blur_name, Plugin:config.blur_arg]
+  [Plugin:config.bold_enable, Plugin:config.bold_name, Plugin:config.bold_arg]
+  [Plugin:config.italic_enable, Plugin:config.italic_name, Plugin:config.italic_arg]
+  [Plugin:config.strikethrough_enable, Plugin:config.strikethrough_name, Plugin:config.strikethrough_arg]
+  [Plugin:config.small_enable, Plugin:config.small_name, Plugin:config.small_arg]
+  [Plugin:config.center_enable, Plugin:config.center_name, Plugin:config.center_arg]
+  [Plugin:config.plain_enable, Plugin:config.plain_name, Plugin:config.plain_arg]
+  [Plugin:config.quote_enable, Plugin:config.quote_name, Plugin:config.quote_arg]
+  [Plugin:config.inlinecode_enable, Plugin:config.inlinecode_name, Plugin:config.inlinecode_arg]
+  [Plugin:config.codeblock_enable, Plugin:config.codeblock_name, Plugin:config.codeblock_arg]
+  [Plugin:config.clear_enable, Plugin:config.clear_name, Plugin:config.clear_arg]
+]
+
+each let c config_data {
+  if (c[0]) {
+    Plugin:register_post_form_action(c[1], @(form, update) {
+      var text = ""
+      if (c[2] == "**") {
+        text = `{c[2]}{form.text}{c[2]}`
+      } elif (c[2] == "i") {
+        text = `<{c[2]}>{form.text}</{c[2]}>`
+      } elif (c[2] == "~~") {
+        text = `{c[2]}{form.text}{c[2]}`
+      } elif (c[2] == "small") {
+        text = `<{c[2]}>{form.text}</{c[2]}>`
+      } elif (c[2] == "center") {
+        text = `<{c[2]}>{Str:lf}{form.text}{Str:lf}</{c[2]}>`
+      } elif (c[2] == "plain") {
+        text = `<{c[2]}>{form.text}</{c[2]}>`
+      } elif (c[2] == ">") {
+        text = `{c[2]} {form.text}`
+      } elif (c[2] == "`") {
+        text = `{c[2]}{form.text}{c[2]}`
+      } elif (c[2] == "```") {
+        text = `{c[2]}{Str:lf}{form.text}{Str:lf}{c[2]}`
+      } elif (c[2] == "clear") {
+        if (Plugin:config.clear_dialog_enable) {
+          if (Mk:confirm("確認", "入力内容を空にします。", "warn")) {
+            text = ""
+          } else {
+            return null
+          }
+        } else {
+          text = ""
+        }
+      } else {
+        text = `$[{c[2]} {form.text}]`
+      }
+      update("text", text)
+    })
+  }
+}
