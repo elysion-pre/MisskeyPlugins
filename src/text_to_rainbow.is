@@ -1,0 +1,176 @@
+/// @ 0.16.0
+### {
+  id: "73f6e561-afbb-4ddd-a9ce-bee9964844a8"
+  name: "入力されている文字をレインボーにするプラグイン"
+  version: "1.0.0"
+  author: "elysion"
+  description: "レインボー変換ボタンを投稿メニューに追加します。"
+  config: {
+    hex: {
+      type: "string"
+      label: "開始する色(000000〜ffffff)"
+      description: "既定値：#ff0000(他：#f00 f00等)"
+      default: "#ff0000"
+    }
+  }
+}
+
+let color = {
+  r: 255
+  g: 0
+  b: 0
+  max: ""
+}
+
+var MAX = 0
+var MIN = 0
+
+@check_range(name value, value_default) {
+  if !(value >= 0 && value <= 255) {
+    Mk:dialog("warning", `{name}値が0〜255内にありません。{Str:lf}{name}値：{value}{Str:lf}既定値『$[fg.color=ff0000 **{value_default}**]』を使用します。`, "warning")
+    value = value_default
+  }
+  return value
+}
+
+@hex2rgb(hex) {
+  if (hex.slice(0, 1) == "#") {
+    hex = hex.slice(1, hex.len)
+  }
+  if (hex.len == 3) {
+    hex = [
+      hex.slice(0, 1) hex.slice(0, 1)
+      hex.slice(1, 2) hex.slice(1, 2)
+      hex.slice(2, 3) hex.slice(2, 3)
+    ].join()
+  }
+  if (hex.len != 6) {
+    Mk:dialog("warning", `値が異常です。{Str:lf}値：{hex}{Str:lf}既定値『$[fg.color=ff0000 **ff0000**]』を使用します。`, "warning")
+    hex = "ff0000"
+  }
+  
+  var value = 0
+  value = Num:from_hex(hex.slice(0, 2))
+  color.r = check_range("R", value, 255)
+  MAX = color.r
+  MIN = color.r
+  color.max = "R"
+  
+  value = Num:from_hex(hex.slice(2, 4))
+  color.g = check_range("G", value, 0)
+  if (MAX < color.g) {
+    MAX = color.g
+    color.max = "G"
+  }
+  if (MIN > color.g) {
+    MIN = color.g
+  }
+  
+  value = Num:from_hex(hex.slice(4, 6))
+  color.b = check_range("B", value, 0)
+  if (MAX < color.b) {
+    MAX = color.b
+    color.max = "B"
+  }
+  if (MIN > color.b) {
+    MIN = color.b
+  }
+}
+
+hex2rgb(Plugin:config.hex)
+
+let HUE = eval {
+  var h = 0
+  if ((color.r == color.g) && (color.r == color.b)) {
+    h = 0
+  } else {
+    if (color.max == "R") {
+      h = 60 * (color.g - color.b) / (MAX - MIN)
+    } elif (color.max == "G") {
+      h = 60 * (color.b - color.r) / (MAX - MIN) + 120
+    } elif (color.max == "B") {
+      h = 60 * (color.r - color.g) / (MAX - MIN) + 240
+    } else {
+      h = 0
+    }
+  }
+  if (h < 0) {
+    h = h + 360
+  }
+  Math:floor(h)
+}
+
+Plugin:register_post_form_action("変換：レインボー文字", @(form, update) {
+  var input = form.text
+  var array = input.split()
+  var unlf_len = array.len - input.split(Str:lf).len
+  var output = ""
+  var color_angle = 360 / unlf_len
+  
+  var cnt = 0
+  for let i array.len {
+    var char = array[i]
+    if (array[i] != Str:lf) {
+      var h = Math:round(Math:abs(
+        color_angle * cnt + HUE
+      ))
+      if (h > 360) {
+        h = (h - 360)
+      }
+      
+      var char_r = 0
+      var char_g = 0
+      var char_b = 0
+      
+      if (h < 60) {
+        char_r = MAX
+        char_g = (h / 60) * (MAX - MIN) + MIN
+        char_b = MIN
+      } elif (h < 120) {
+        char_r = ((120 - h) / 60) * (MAX - MIN) + MIN
+        char_g = MAX
+        char_b = MIN
+      } elif (h < 180) {
+        char_r = MIN
+        char_g = MAX
+        char_b = ((h - 120) / 60) * (MAX - MIN) + MIN
+      } elif (h < 240) {
+        char_r = MIN
+        char_g = ((240 - h) / 60) * (MAX - MIN) + MIN
+        char_b = MAX
+      } elif (h < 300) {
+        char_r = ((h - 240) / 60) * (MAX - MIN) + MIN
+        char_g = MIN
+        char_b = MAX
+      } else {
+        char_r = MAX
+        char_g = MIN
+        char_b = ((360 - h) / 60) * (MAX - MIN) + MIN
+      }
+      
+      var r_hex = Num:to_hex(Math:round(char_r))
+      var g_hex = Num:to_hex(Math:round(char_g))
+      var b_hex = Num:to_hex(Math:round(char_b))
+      var color = ``
+      
+      if (r_hex.len < 2) {
+        r_hex = `0{r_hex}`
+      }
+      color = `{color}{r_hex}`
+      if (g_hex.len < 2) {
+        g_hex = `0{g_hex}`
+      }
+      color = `{color}{g_hex}`
+      if (b_hex.len < 2) {
+        b_hex = `0{b_hex}`
+      }
+      color = `{color}{b_hex}`
+      output = `{output}$[fg.color={color} {char}]`
+      cnt += 1
+    } else {
+      output = `{output}{char}`
+    }
+  }
+
+  update("text", output)
+})
