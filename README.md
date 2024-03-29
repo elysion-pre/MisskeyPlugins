@@ -11,6 +11,6 @@
 - 数字引用プラグイン│numberquote.is
   - [msk.kitazawa.me](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/numberquote.json&hash=730d8376fb547954d560bed25bf6a81f62beae2c3cc3ecfb273cf277d73726a9d2dffa413d45800af83e9facf225386bdf80d71e9c538b5b9b718bcf438b5c50)
 - 投稿時刻を表示するプラグイン│viewdate.is
-  - [msk.kitazawa.me](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.i/MisskeyPlugins/json/viewdate.json&hash=d8367972e9c21aac08dac55fc258ba4604ff813d17b02acaa69030489c356e5c947487acbe3309bfcfcb27aedad6a7cc41b07dca41bedd58d2a3499f87353fe0)
+  - [msk.kitazawa.me](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/viewdate.json&hash=d8367972e9c21aac08dac55fc258ba4604ff813d17b02acaa69030489c356e5c947487acbe3309bfcfcb27aedad6a7cc41b07dca41bedd58d2a3499f87353fe0)
 - いまのなし│imanonashi.is
   - msk.kitazawa.me
