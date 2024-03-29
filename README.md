@@ -9,7 +9,7 @@
 - パクるプラグイン│pakuru.is
   - [msk.kitazawa.me](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/pakuru.json&hash=d1cb762e507deb7eb1d0ceabe47bc4919fec8125cc1326fc75040aa6a9dab41fa0ba8db954e70161f8d55d09c4175a547fa965dcf74837d566384dcc32f1eebf)
 - 数字引用プラグイン│numberquote.is
-  - msk.kitazawa.me
+  - [msk.kitazawa.me](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/numberquote.json&hash=730d8376fb547954d560bed25bf6a81f62beae2c3cc3ecfb273cf277d73726a9d2dffa413d45800af83e9facf225386bdf80d71e9c538b5b9b718bcf438b5c50)
 - 投稿時刻を表示するプラグイン│viewdate.is
   - msk.kitazawa.me
 - いまのなし│imanonashi.is
