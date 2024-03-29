@@ -13,4 +13,4 @@
 - 投稿時刻を表示するプラグイン│viewdate.is
   - [msk.kitazawa.me](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/viewdate.json&hash=d8367972e9c21aac08dac55fc258ba4604ff813d17b02acaa69030489c356e5c947487acbe3309bfcfcb27aedad6a7cc41b07dca41bedd58d2a3499f87353fe0)
 - いまのなし│imanonashi.is
-  - [msk.kitazawa.me](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/imanonashi.json&hash=b6422d7d44d75e44d19b0f27dc41e226103acc647678312c01617fb727be91180ea5a85ae56883f11975e682a0ac0035231716ce66aadb8461f6757cddb58fcb)
+  - [msk.kitazawa.me](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/imanonashi.json&hash=d9f0bc0a82499655a0c684fac0db3c93e2a590a0f4dc437c6270b93545bfe10d11398b39adef135b2d388a21dc2f50e7b9e04a66c856421a2348272ae0fbbdc4)
