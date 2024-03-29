@@ -3,7 +3,7 @@
   name: "パクるプラグイン(aiscript0.12.4以降対応版)"
   version: "2.0.0"
   author: "@elysion (Original: taiy)"
-  description: "ノートメニューに\"パクる\"を追加します。"
+  description: "ノートメニューに【パクる】を追加します。"
   permissions: ["write:notes" "write:drive" "read:drive"]
   config: {
     visibility: {
@@ -15,13 +15,13 @@
     localOnly: {
       type: "boolean"
       label: "常にローカルでパクる"
-      description: "(既定値: 無効) 公開範囲が\"auto\"の場合、この指定は無視され、元のノートに追従します。"
+      description: "(既定値: 無効) 公開範囲が【auto】の場合、この指定は無視され、元のノートに追従します。"
       default: false
     }
     channel: {
       type: "boolean"
       label: "元のチャンネルでパクる"
-      description: "(既定値: 有効) 公開範囲が\"auto\"の場合、この指定は無視され、元のノートに追従します。"
+      description: "(既定値: 有効) 公開範囲が【auto】の場合、この指定は無視され、元のノートに追従します。"
       default: true
     }
     reply: {
