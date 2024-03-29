@@ -1,0 +1,323 @@
+/// @ 0.16.0
+### {
+  name: "投稿時刻を表示するプラグイン(aiscript0.12.4以降対応版)"
+  version: "2.0.0"
+  author: "@elysion (Original: taiy)"
+  description: "ノートメニューに【投稿時刻を表示】を追加します。"
+  permissions: []
+  config: {
+    format: {
+      type: "string"
+      label: "書式"
+      description: "(既定値: YYYY/MM/DD HH:mm:ss.SSS) フォーマットを指定します。Day.jsと同一のトークンが利用できます。(一部非対応)"
+      default: "YYYY/MM/DD HH:mm:ss.SSS"
+    }
+    offset: {
+      type: "number"
+      label: "時差"
+      description: "(既定値: 540) 時差を分単位で指定します。日本標準時(JST)は540です。夏時間には非対応です。"
+      default: 540
+    }
+  }
+}
+
+let has_format = (Plugin:config.format == "") || (Plugin:config.format == null)
+let c_format = if has_format "YYYY/MM/DD HH:mm:ss.SSS" else Plugin:config.format
+let has_offset = (Plugin:config.offset == "") || (Plugin:config.offset == null)
+let c_offset = if has_offset 540 else Plugin:config.offset
+
+if has_format {
+  Mk:dialog("投稿時刻を表示するプラグインより" `書式の指定がありません。{Str:lf}自動で **YYYY/MM/DD HH:mm:ss.SSS** が適用されます。` "warn")
+}
+if has_offset {
+  Mk:dialog("投稿時刻を表示するプラグインより" `時差の指定がありません。{Str:lf}自動で **540** が適用されます。` "warn")
+}
+
+@format(str tokens) {
+  @sort(arr mapfn) {
+    @bubbleSort(arr) {
+      let length = arr.len
+      for let i, length {
+        for let j, (length - i - 1) {
+          if (Obj:get(arr[j] "index") > Obj:get(arr[j + 1] "index")) {
+            let tmp = arr[j]
+            arr[j] = arr[j + 1]
+            arr[j + 1] = tmp
+          }
+        }
+      }
+      return arr
+    }
+    return bubbleSort(arr.map(mapfn)).map(@(obj) {
+      return Obj:get(obj "value")
+    })
+  }
+  @flat(arr) {
+    @fn_isArr(val) {
+      return (Core:type(val) == "arr")
+    }
+    @fn_flat(arr) {
+      arr = arr.reduce(@(prev val) {
+        if !(fn_isArr(val)) {
+          val = [val]
+        }
+        return prev.concat(val)
+      } [])
+      if (arr.filter(fn_isArr).len != 0) {
+        arr = fn_flat(arr)
+      }
+      return arr
+    }
+    return fn_flat(arr.copy())
+  }
+  @at(arr index) {
+    if (index < 0) return null
+    if (arr.len <= index) return null
+    return arr[index]
+  }
+  @startAt(arr) {
+    return at(arr 0)
+  }
+  @lastAt(arr) {
+    return at(arr (arr.len-1))
+  }
+
+  @toStr(strArr) {
+    return flat(strArr).map(@(strObj) {
+      return Obj:get(strObj "string")
+    }).join("")
+  }
+
+  tokens = sort(Obj:kvs(tokens) @(arr) {
+    let token = arr[0]
+    let value = arr[1]
+    return {
+      index: token.len
+      value: {
+        token: token
+        value: value
+      }
+    }
+  })
+  tokens.reverse()
+
+  str = str.split("").reduce(@(prev cur) {
+    if (cur == "[") {
+      prev.push({
+        string: ""
+        replaced: true
+      })
+    } elif (cur == "]") {
+      prev.push({
+        string: ""
+        replaced: false
+      })
+    } else {
+      let last = lastAt(prev)
+      let s = Obj:get(last "string")
+      Obj:set(last "string" `{s}{cur}`)
+    }
+    return prev
+  } [{
+    string: ""
+    replaced: false
+  }])
+
+  let result = tokens.reduce(@(strArr tokenObj) {
+    strArr = flat(strArr)
+    let t = Obj:get(tokenObj "token")
+    let v = Obj:get(tokenObj "value")
+    return strArr.map(@(strObj) {
+      let s = Obj:get(strObj "string")
+      let r = Obj:get(strObj "replaced")
+      if r {
+        return strObj
+      }
+      let a = s.split(t)
+      return a.reduce(@(prev cur index) { // index=1~len
+        if (cur != "") {
+          prev.push({
+            string: cur
+            replaced: false
+          })
+        }
+        if (a.len != (index + 1)) {
+          prev.push({
+            string: v
+            replaced: true
+          })
+        }
+        return prev
+      } [])
+    })
+  } str)
+
+  return toStr(result)
+}
+
+@DateObj(unixtime minuteOffset) {
+  let YEAR_ONE = 365
+  let YEAR_FOUR = 1461
+  let YEAR_100 = 36524
+  let YEAR_400 = 146097
+  let EPOCH_DAY = 719468
+  let monthday = [0,31,61,92,122,153,184,214,245,275,306,337]
+
+  let result = {
+    unixtime: unixtime
+    minuteOffset: minuteOffset
+  }
+
+  unixtime = (unixtime + (minuteOffset * 60000))
+  var unixday = Math:floor((unixtime / 86400000))
+  var leap = 0
+  var year = 0
+  var month = null
+  var day = null
+  var n = null
+
+  var hour = (Math:floor((unixtime / 3600000)) % 24)
+  var minute = (Math:floor((unixtime / 60000)) % 60)
+  var second = (Math:floor((unixtime / 1000)) % 60)
+  var millisecond = (unixtime % 1000)
+  if (unixtime < 0) {
+    hour = (hour + 24)
+    minute = (minute + 60)
+    second = (second + 60)
+    millisecond = (millisecond + 1000)
+  }
+
+  let weekday = ((Math:floor((unixday + 4)) % 7) + 1)
+  if (weekday < 0) {
+    weekday = (weekday + 7)
+  }
+  unixday = (unixday + EPOCH_DAY)
+
+  year = (year + (400 * Math:floor((unixday / YEAR_400))))
+  unixday = (unixday % YEAR_400)
+  n = Math:floor((unixday / YEAR_100))
+  year = (year + (n * 100))
+  unixday = (unixday % YEAR_100)
+
+  if (n == 4) {
+    leap = 1
+  } else {
+    year = (year + (4 * Math:floor((unixday / YEAR_FOUR))))
+    unixday = (unixday % YEAR_FOUR)
+
+    n = Math:floor((unixday / YEAR_ONE))
+    year = (year + n)
+    unixday = (unixday % YEAR_ONE)
+    if (n == 4) {
+      leap = 1
+    }
+  }
+  if (leap != 0) {
+    month = 2
+    day = 29
+  } else {
+    month = Math:floor((((unixday * 5) + 2) / 153))
+    day = ((unixday - monthday[month]) + 1)
+    month = (month + 3)
+    if (month > 12) {
+      year = (year + 1)
+      month = (month - 12)
+    }
+  }
+
+  result.year = year
+  result.month = month
+  result.day = day
+  result.hour = hour
+  result.minute = minute
+  result.second = second
+  result.millisecond = millisecond
+  result.weekday = weekday 
+
+  return result
+}
+@DateTokenObj(unixtime minuteOffset) {
+  let d = DateObj(unixtime minuteOffset)
+  let result = {}
+  @zeroPadding(n length) {
+    let num = n
+    let abs = Math:abs(num)
+    let str = abs.to_str()
+    let sign = if (num < 0) "-" else ""
+    let len = Math:max(0 (length - str.len))
+    let pstr = if (len == 0) "" else Core:range(1 len).map(@(v){"0"}).join("")
+    return `{sign}{pstr}{str}`
+  }
+  let z = zeroPadding
+
+  result.YY = z((d.year % 100) 2)
+  result.YYYY = z(d.year 4)
+  result.M = z(d.month 1)
+  result.MM = z(d.month 2)
+  result.D = z(d.day 1)
+  result.DD = z(d.day 2)
+
+  result.d = z(d.weekday 1)
+
+  var hour12 = (d.hour % 12)
+  if (hour12 == 0) {
+    hour12 = 12
+  }
+  result.H = z(d.hour 1)
+  result.HH = z(d.hour 2)
+  result.h = z(hour12 1)
+  result.hh = z(hour12 2)
+  result.m = z(d.minute 1)
+  result.mm = z(d.minute 2)
+  result.s = z(d.second 1)
+  result.ss = z(d.second 2)
+  result.SSS = z(d.millisecond 3)
+
+  let tzoffset = Math:abs(d.minuteOffset)
+  let tzsign = if (d.minuteOffset < 0) "-" else "+"
+  let tzhour = z((Math:floor((tzoffset / 60)) % 60) 2)
+  let tzminute = z((tzoffset % 60) 2)
+  result.Z = `{tzsign}{tzhour}:{tzminute}`
+  result.ZZ = `{tzsign}{tzhour}{tzminute}`
+
+  result.A = if (d.hour < 12) "AM" else "PM"
+  result.a = if (d.hour < 12) "am" else "pm"
+
+  @indicator(n) {
+    let i = Math:abs(n)
+    let cent = (i % 100)
+    if Core:and((10 <= cent) (cent <= 20)) return `{n}th`
+    let dec = (i % 10)
+    match dec {
+      1 => return `{n}st`
+      2 => return `{n}nd`
+      3 => return `{n}rd`
+    }
+    return `{n}th`
+  }
+  result.Do = indicator(d.day)
+
+  var hour24 = (d.hour % 24)
+  if (hour24 == 0) {
+    hour24 = 24
+  }
+  result.k = z(hour24 1)
+  result.kk = z(hour24 2)
+  result.X = `{Math:floor((d.unixtime / 1000))}`
+  result.x = `{d.unixtime}`
+
+  return result
+}
+
+@dateformat(fmt str offset) {
+  return format(fmt DateTokenObj(Date:parse(str) offset))
+}
+
+Plugin:register_note_action("投稿時刻を表示" @(note) {
+  let formated = dateformat(c_format note.createdAt c_offset)
+  Mk:dialog("投稿時刻" formated "info")
+})
+Plugin:register_user_action("作成日時を表示" @(user) {
+  let formated = dateformat(c_format user.createdAt c_offset)
+  Mk:dialog("作成日時" formated "info")
+})
