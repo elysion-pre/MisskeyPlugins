@@ -1,0 +1,261 @@
+/// @ 0.16.0
+### {
+  name: "数字引用プラグイン(aiscript0.12.4以降対応版)"
+  version: "2.0.0"
+  author: "@elysion (Original: taiy)"
+  description: "ノートメニューに【数字引用する】を追加します。"
+  permissions: ["write:notes" "write:drive" "read:drive"]
+  config: {
+    visibility: {
+      type: "string"
+      label: "公開範囲"
+      description: "(既定値: auto) 以下から、投稿するノートの公開範囲を指定します。 auto public home followers"
+      default: "auto"
+    }
+    localOnly: {
+      type: "boolean"
+      label: "常にローカルで数字引用する"
+      description: "(既定値: 無効) 公開範囲が【auto】の場合、この指定は無視され、元のノートに追従します。"
+      default: false
+    }
+    channel: {
+      type: "boolean"
+      label: "元のチャンネルで数字引用する"
+      description: "(既定値: 有効) 公開範囲が【auto】の場合、この指定は無視され、元のノートに追従します。"
+      default: true
+    }
+    reply: {
+      type: "boolean"
+      label: "返信元で数字引用する"
+      description: "(既定値: 有効)"
+      default: true
+    }
+    renote: {
+      type: "boolean"
+      label: "引用も数字引用する"
+      description: "(既定値: 有効)"
+      default: true
+    }
+    poll: {
+      type: "boolean"
+      label: "投票も数字引用する"
+      description: "(既定値: 有効)"
+      default: true
+    }
+    files: {
+      type: "boolean"
+      label: "添付ファイルも数字引用する"
+      description: "(既定値: 有効) ドライブに保存・添付するため、時間を要することがあります。"
+      default: true
+    }
+  }
+}
+
+let c = {}
+c.visibility = Plugin:config.visibility
+if !(["auto" "public" "home" "followers"].incl(c.visibility)) {
+  c.visibility = "auto"
+  Mk:dialog("数字引用プラグイン" `公開範囲の指定に誤りがあります。{Str:lf}自動で **{c.visibility}** が適用されます。` "warning")
+}
+c.localOnly = Plugin:config.localOnly
+c.channel = Plugin:config.channel
+c.reply = Plugin:config.reply
+c.renote = Plugin:config.renote
+c.poll = Plugin:config.poll
+c.files = Plugin:config.files
+c.auto = (c.visibility == "auto")
+
+@numberquote(text) {
+  if (text == null) {
+    text = ""
+  }
+  @genArr(size) {
+    return Core:range(1 size).map(@(v){null})
+  }
+  @lastStr(str len) {
+    let end = str.len
+    str.slice((end - len) end)
+  }
+  if (lastStr(text 9) == "</center>") {
+    text = `{text}{Str:lf}`
+  }
+  let text_len = text.len
+  let result = []
+
+  genArr(text_len).find(@(v i) { // i=1..len
+    i = text_len - (i + 1)
+    let s = text.pick(i)
+    let n = s.to_num()
+    if (n != null) {
+      result.unshift(s)
+      return false
+    }
+    if (s == "-") {
+      if ((text_len-1) != i) {
+        result.unshift(s)
+      }
+      return true
+    }
+    return true
+  })
+  var str = result.join("")
+  let num = if (str != "") str.to_num() else 1
+  if (str != "") {
+    text = text.slice(0 (text_len - result.len))
+  }
+  return `{text}{Core:to_str((num + 1))}`
+}
+
+@upload(files callback) {
+  @at(arr index) {
+    if (index < 0) return null
+    if (arr.len <= index) return null
+    return arr[index]
+  }
+  @lastAt(arr) {
+    return at(arr (arr.len-1))
+  }
+  @fn_upload(file) {
+    let uuid = Util:uuid()
+    let uploadObj = {
+      url: file.url
+      force: true
+      isSensitive: file.isSensitive
+      comment: uuid
+    }
+    if (file.marker != null) {
+      uploadObj.marker = file.marker
+    }
+    Mk:api("drive/files/upload-from-url" uploadObj)
+
+    return {
+      uuid: uuid
+      comment: file.comment
+    }
+  }
+
+  let latest = lastAt(Mk:api("drive/stream" {limit: 1}))
+  var latestId = if (latest != null) Obj:get(latest "id") else null
+  let arr = files.map(@(file){ fn_upload(file) })
+  let complete = Core:range(1 arr.len).map(@(v){ null })
+  let streamObj = {limit: arr.len}
+  if (latestId != null) {
+    streamObj.sinceId = latestId
+  }
+
+  let stop = Async:interval(2000 @() {
+    let result = Mk:api("drive/stream" streamObj)
+    if (result != null) {
+      each let file result {
+        var id = file.id
+        arr.map(@(obj index) {
+          if (file.comment == obj.uuid) {
+            var file_ex = Mk:api("drive/files/update" {
+              fileId: file.id
+              comment: obj.comment
+            })
+            complete[index] = file_ex
+            id = file_ex.id
+          }
+        })
+        latestId = id
+      }
+    }
+    if !(complete.incl(null)) {
+      stop()
+      callback(complete)
+    }
+  } true)
+  return null
+}
+
+@parse(note callback) {
+  @toBool(value) {
+    match value {
+      true => return true
+      false => return false
+      "" => return false
+      null => return false
+      0 => return false
+    }
+    return true
+  }
+  @or(arr) {
+    var bool = false
+    arr.find(@(v) {
+      return if toBool(v) {
+        bool = true
+        true
+      } else false
+    })
+    return bool
+  }
+  @and(arr) {
+    var bool = true
+    arr.find(@(v) {
+      return if toBool(v) false else {
+        bool = false
+        true
+      }
+    })
+    return bool
+  }
+
+  let obj = {
+    text: note.text
+    cw: note.cw
+  }
+  if c.auto {
+    obj.visibility = note.visibility
+    if (note.localOnly != null) {
+      obj.localOnly = note.localOnly
+    }
+    if (note.channelId != null) {
+      obj.channelId = note.channelId
+    }
+  } else {
+    obj.visibility = c.visibility
+    obj.localOnly = c.localOnly
+    if and([c.channel note.channelId]) {
+      obj.channelId = note.channelId
+    }
+  }
+
+  if and([c.reply note.replyId]) {
+    obj.replyId = note.replyId
+  }
+  if and([c.renote note.renoteId]) {
+    obj.renoteId = note.renoteId
+  }
+  if and([c.poll note.poll]) {
+    let poll = {
+      choices: note.poll.choices.map(@(choice) {
+        return if (Core:type(choice) == "obj") Obj:get(choice "text") else choice
+      })
+    }
+    if (note.poll.multiple != null) {
+      poll.multiple = note.poll.multiple
+    }
+    if (note.poll.expiresAt != null) {
+      let diff = (Date:parse(note.poll.expiresAt) - Date:parse(note.createdAt))
+      poll.expiredAfter = diff
+    }
+    obj.poll = poll
+  }
+  if and([c.files note.files.len]) {
+    upload(note.files @(files) {
+      obj.fileIds = files.map(@(file) { file.id })
+      callback(obj)
+    })
+  } else {
+    callback(obj)
+  }
+  return null
+}
+
+Plugin:register_note_action("数字引用する" @(note) {
+  parse(note @(parsed) {
+    parsed.text = numberquote(parsed.text)
+    Mk:api("notes/create" parsed)
+  })
+})
