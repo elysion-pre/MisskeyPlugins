@@ -1,0 +1,185 @@
+/// @ 0.16.0
+### {
+  name: "いまのなし(aiscript0.12.4移植版)"
+  version: "2.0.0"
+  author: "@elysion (Original: taiy)"
+  description: "消せ消せ消せ消せ消せ"
+  permissions: ["write:notes"]
+  config: {
+    exactWords: {
+      type: "string"
+      label: "単語(完全一致)"
+      description: "(既定値: いまのなし) カンマ区切りで複数指定します。nyaizeは以下の言語に対応しています。 ja-JP, en-US"
+      default: "いまのなし"
+    }
+    partialWords: {
+      type: "string"
+      label: "単語(部分一致)"
+      description: "(既定値なし) 【単語(完全一致)】 の説明を参照します。"
+      default: ""
+    }
+    exactAlert: {
+      type: "boolean"
+      label: "削除を確認する(完全一致)"
+      description: "(既定値: 有効)"
+      default: true
+    }
+    partialAlert: {
+      type: "boolean"
+      label: "削除を確認する(部分一致)"
+      description: "(既定値: 有効)"
+      default: true
+    }
+  }
+}
+
+let limitObj = {
+  userId: USER_ID
+  limit: 1
+}
+
+:: Arr {
+  @at(arr index) {
+    return if ((index < 0) || (arr.len <= index)) null
+    else arr[index]
+  }
+  @lastAt(arr) {
+    return Arr:at(arr (arr.len-1))
+  }
+}
+
+:: Str {
+  @replaceFn(text old func) {
+    let textU = text.upper()
+    let oldU = old.upper()
+    let oldLen = old.len
+    let textUArr = textU.split(oldU)
+    let obj = textUArr.reduce(@(prev cur i) {
+      if (i != 1) {
+        let begin = prev.len
+        let end = (begin + oldLen)
+        prev.len = end
+        prev.arr.push({
+          isMatched: true
+          string: text.slice(begin end)
+        })
+      }
+      let begin = prev.len
+      let end = (begin + cur.len)
+      prev.len = end
+      prev.arr.push({
+        isMatched: false
+        string: text.slice(begin end)
+      })
+      return prev
+    } {len: 1, arr: []})
+    return obj.arr.map(@(o) {
+      return if (o.string == "") ""
+      elif o.isMatched func(o.string)
+      else o.string
+    }).join("")
+  }
+  @nyaize(text) {
+    text = text.replace("な" "にゃ").replace("ナ" "ニャ").replace("ﾅ" "ﾆｬ")
+    text = Str:replaceFn(text "na" @(old) {
+      let x = if (old.slice(2 3) == "A") "YA" else "ya"
+      return `{old.slice(1 2)}{x}`
+    })
+    text = Str:replaceFn(text "morning" @(old) {
+      let x = if (old.slice(5 8) == "ING") "YAN" else "yan"
+      return `{old.slice(1 5)}{x}`
+    })
+    text = Str:replaceFn(text "everyone" @(old) {
+      let x = if (old.slice(6 9) == "ONE") "NYAN" else "nyan"
+      return `{old.slice(1 6)}{x}`
+    })
+    return text
+  }
+  @quote(text) {
+    return `> {text.split(Str:lf).join(`{Str:lf}> `)}`
+  }
+}
+
+@remove_null_property(object) {
+  if Core:type(object) != 'obj' {
+    return object
+  }
+  let new_obj = {}
+  each let kv Obj:kvs(object) {
+    let v = remove_null_property(kv[1])
+    if Core:type(v) != 'null' {
+      Obj:set(new_obj kv[0] v)
+    }
+  }
+  return new_obj
+}
+
+let c = {}
+
+c.exactAlert = Plugin:config.exactAlert
+c.exactWords = Plugin:config.exactWords
+if (c.exactWords == "") {
+  c.exactWords = "いまのなし"
+}
+let exactMatches = c.exactWords.split(",").map(@(m) { m.trim() }).filter(@(m) {(m != "")})
+exactMatches.map(@(m) {
+  exactMatches.unshift(Str:nyaize(m))
+})
+
+c.partialAlert = Plugin:config.partialAlert
+c.partialWords = Plugin:config.partialWords
+if (c.partialWords == "") {
+  c.partialWords = ""
+}
+let partialMatches = c.partialWords.split(",").map(@(m) { m.trim() }).filter(@(m) {(m != "")})
+partialMatches.map(@(m) {
+  partialMatches.unshift(Str:nyaize(m))
+})
+
+let queue = []
+Async:interval(1000 @() {
+  let obj = queue.shift()
+  if (obj == null) return null
+  let alert = match obj.type {
+    1 => c.exactAlert
+    2 => c.partialAlert
+    3 => (c.exactAlert || c.partialAlert)
+  }
+  let note = obj.note
+  let flag = if alert Mk:confirm("" `このノートを削除しますか？{Str:lf}{Str:quote(note.text)}` "warning") else true
+  if flag {
+    Mk:api("notes/delete" {
+      noteId: note.id
+    })
+  }
+})
+
+@judge(text) {
+  var exact = false
+  var partial = false
+  exactMatches.find(@(m) {
+    exact = (text == m)
+    return exact
+  })
+  partialMatches.find(@(m) {
+    partial = text.incl(m)
+    return partial
+  })
+  return {exact: exact, partial: partial}
+}
+
+Plugin:register_note_post_interruptor(@(note) {
+  let text = Obj:get(note "text")
+  let judge = judge(text)
+  let type = if (judge.exact && judge.partial) 3
+  elif judge.exact 1
+  elif judge.partial 2
+  else 0
+  if (type != 0) {
+    queue.push({
+      type: type,
+      note: Arr:lastAt(Mk:api("users/notes" limitObj))
+    })
+  }
+  return remove_null_property(note)
+})
