@@ -7,7 +7,7 @@
 
 ### taiy製Misskeyプラグイン
 - パクるプラグイン│pakuru.is
-  - [msk.kitazawa.me](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/pakuru.json&hash=b17873c714034c8c0e7ca375eb6c8e127f75ec1b25f81d4458717d84dedd233f8e089eff17b3b0e5ebc52db1cc4c2250487e1649a425cc8891ae54180cff4ed7)
+  - [msk.kitazawa.me](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/pakuru.json&hash=d1cb762e507deb7eb1d0ceabe47bc4919fec8125cc1326fc75040aa6a9dab41fa0ba8db954e70161f8d55d09c4175a547fa965dcf74837d566384dcc32f1eebf)
 - 数字引用プラグイン│numberquote.is
   - msk.kitazawa.me
 - 投稿時刻を表示するプラグイン│viewdate.is
