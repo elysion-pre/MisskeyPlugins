@@ -1,0 +1,4 @@
+{
+  "type": "plugin",
+  "data": "/// @ 0.16.0\n### {\n  id: \"15a6e3e2-d4e2-4326-9821-7b7bee0078ee\"\n  name: \"添付画像のファイル名を乱数化するプラグイン\"\n  version: \"1.0.0\"\n  author: \"elysion\"\n  description: \"添付画像のファイル名を乱数化します。\"\n  permissions: [\"write:drive\"]\n}\n\n@remove_null_property(object) {\n  if Core:type(object) != 'obj' {\n    return object\n  }\n  let new_obj = {}\n  each let kv Obj:kvs(object) {\n    let v = remove_null_property(kv[1])\n    if Core:type(v) != 'null' {\n      Obj:set(new_obj kv[0] v)\n    }\n  }\n  return new_obj\n}\n\nPlugin:register_note_post_interruptor(@(note) {\n  if (note.fileIds != null) {\n    each (let fileId, note.fileIds) {\n      Mk:api(\"drive/files/update\", {\n        fileId: fileId,\n        name: Util:uuid()\n      })\n    }\n  }\n  remove_null_property(note)\n})"
+}
