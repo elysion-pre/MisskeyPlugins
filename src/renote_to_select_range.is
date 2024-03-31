@@ -1,0 +1,43 @@
+/// @ 0.16.0
+### {
+  id: "dc00bf59-27c9-8e1b-1bba-93ae1ef8e992"
+  name: "指定の公開範囲にリノートするプラグイン"
+  version: "1.0.0"
+  author: "elysion"
+  description: "ノートメニューに【リノート：指定の公開範囲】を追加します。"
+  permissions: ["write:notes"]
+  config: {
+    visibility: {
+      type: "string"
+      label: "公開範囲"
+      description: "(既定値: auto) 以下から、投稿するノートの公開範囲を指定します。 auto public home followers"
+      default: "auto"
+    }
+  }
+}
+
+let c = {
+  visibility: Plugin:config.visibility,
+  auto: false
+}
+if (!["auto", "public", "home", "followers"].incl(c.visibility)) {
+  c.visibility = "auto"
+  Mk:dialog(Plugin:name, [
+    `公開範囲の指定に誤りがあります。`
+    `自動で **{c.visibility}** が適用されます。`
+  ].join(Str:lf), "warning")
+}
+c.auto = (c.visibility == "auto")
+
+Plugin:register_note_action(`リノート：{c.visibility}` @(note) {
+  let renote_obj = {
+    renoteId: note.id,
+    visibility: note.visibility
+  }
+
+  if !c.auto {
+    renote_obj.visibility = c.visibility
+  }
+
+  Mk:api("notes/create", renote_obj)
+})
