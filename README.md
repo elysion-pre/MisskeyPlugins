@@ -6,6 +6,7 @@
 - [字体変換プラグイン│font_convert](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/font_convert.json&hash=63a92590c05a62ab094355a3bc23b1925bca56e0c80370b16b3810676624dea5c9189b4e9a852df5855a72de170e908fc4d5efba3615cdb364dece09cbe9970f)
 - [添付画像のファイル名を乱数化するプラグイン│randomize_attachment_file_name](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/randomize_attachment_file_name.json&hash=0b8a99573c12dac4513fc7d0140674519e452650b77feba53e515e0515041f5df2da7ed0a99048d12a386add5af52b0495864e2302854c3dcde16c68c027141b)
  - [指定の投稿範囲にリノートするプラグイン│renote_to_select_visibility](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/renote_to_select_visibility.json&hash=e89a646f5a98b2939e4384562a557c0820ba8ac776156b8fdfddccdf1c10d397e8fc6411d3c32201774889e28e37eac35efb27845df2b9c897ab2e628d81a5cb)
+ - [ノートの内容をプレーンテキストで表示するプラグイン│plain_text](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/plain_text.json&hash=9f486166b8affc9fc03d9a13588413b8e442048c7c26933dd23e6f8cbc842328a08d88a0f15a6680be41f33e0052695722e7c60861ec45f5d27b1b2f7fc93b2b)
 
 ### taiy製Misskeyプラグイン
 - パクるプラグイン│pakuru.is
