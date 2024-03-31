@@ -1,0 +1,4 @@
+{
+  "type": "plugin",
+  "data": "/// @ 0.16.0\n### {\n  id: \"9bcc8629-5a47-fe82-ca09-8e937f817dcb\"\n  name: \"ノートの内容をプレーンテキストで表示するプラグイン\"\n  version: \"2.0.0\"\n  author: \"elysion\"\n  description: \"ノートの内容をプレーンテキストで表示するボタンをノートメニューに追加します。\"\n}\n\nPlugin:register_note_action(\"表示：ノートの内容をプレーンテキストで表示\" @(note) {\n  Mk:dialog(\"ノート内容\", [\n    `<plain>`\n    if (note.cw != null) note.cw\n    note.text\n    `</plain>`\n  ].join(Str:lf), \"info\")\n})"
+}
