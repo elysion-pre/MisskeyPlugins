@@ -1,0 +1,35 @@
+/// @ 0.16.0
+### {
+  id: "15a6e3e2-d4e2-4326-9821-7b7bee0078ee"
+  name: "添付画像のファイル名を乱数化するプラグイン"
+  version: "1.0.0"
+  author: "elysion"
+  description: "添付画像のファイル名を乱数化します。"
+  permissions: ["write:drive"]
+}
+
+@remove_null_property(object) {
+  if Core:type(object) != 'obj' {
+    return object
+  }
+  let new_obj = {}
+  each let kv Obj:kvs(object) {
+    let v = remove_null_property(kv[1])
+    if Core:type(v) != 'null' {
+      Obj:set(new_obj kv[0] v)
+    }
+  }
+  return new_obj
+}
+
+Plugin:register_note_post_interruptor(@(note) {
+  if (note.fileIds != null) {
+    each (let fileId, note.fileIds) {
+      Mk:api("drive/files/update", {
+        fileId: fileId,
+        name: Util:uuid()
+      })
+    }
+  }
+  remove_null_property(note)
+})
