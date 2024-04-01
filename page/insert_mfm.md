@@ -24,7 +24,7 @@ MFM挿入ボタンを投稿メニューに追加します。
 
 
 ## ソース
-[リンク](https://github.com/elysion-pre/MisskeyPlugins/blob/main/src/insert_mfm.is)
+[insert_mfm.is](https://github.com/elysion-pre/MisskeyPlugins/blob/main/src/insert_mfm.is)
 
 ## インストール
 
