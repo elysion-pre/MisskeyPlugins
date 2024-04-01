@@ -18,7 +18,7 @@
 > 既定値：#ff0000(他：#f00 f00等)
 
 ## ソース
-[リンク](https://github.com/elysion-pre/MisskeyPlugins/blob/main/src/text_to_rainbow.is)
+[text_to_rainbow.is](https://github.com/elysion-pre/MisskeyPlugins/blob/main/src/text_to_rainbow.is)
 
 ## インストール
 
