@@ -1,43 +1,59 @@
 /// @ 0.16.0
 ### {
   id: "dc00bf59-27c9-8e1b-1bba-93ae1ef8e992"
-  name: "指定の公開範囲にリノートするプラグイン"
-  version: "1.0.0"
+  name: "ホーム(or フォロワー)にリノートするプラグイン"
+  version: "2.0.0"
   author: "elysion"
-  description: "ノートメニューに【リノート：指定の公開範囲】を追加します。"
+  description: "ノートメニューに【リノート：ホーム】・【リノート：フォロワー】を追加します。"
   permissions: ["write:notes"]
   config: {
-    visibility: {
+    home_enable: {
+      type: "boolean"
+      label: "ホームリノート: 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: true
+    }
+    home_name: {
       type: "string"
-      label: "公開範囲"
-      description: "(既定値: auto) 以下から、投稿するノートの公開範囲を指定します。 auto public home followers"
-      default: "auto"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "🏠ホーム"
+    }
+    followers_enable: {
+      type: "boolean"
+      label: "フォロワーリノート: 無効/有効"
+      description: "メニューに表示するかどうか"
+      default: true
+    }
+    followers_name: {
+      type: "string"
+      label: "表示名"
+      description: "メニューでの表示名"
+      default: "🔒フォロワー"
     }
   }
 }
 
-let c = {
-  visibility: Plugin:config.visibility,
-  auto: false
-}
-if (!["auto", "public", "home", "followers"].incl(c.visibility)) {
-  c.visibility = "auto"
-  Mk:dialog(Plugin:name, [
-    `公開範囲の指定に誤りがあります。`
-    `自動で **{c.visibility}** が適用されます。`
-  ].join(Str:lf), "warning")
-}
-c.auto = (c.visibility == "auto")
-
-Plugin:register_note_action(`リノート：{c.visibility}` @(note) {
-  let renote_obj = {
-    renoteId: note.id,
-    visibility: note.visibility
+let CONFIG_DATA = [
+  {
+    visibility: "home",
+    enable: Plugin:config.home_enable,
+    name: Plugin:config.home_name
+  },
+  {
+    visibility: "followers",
+    enable: Plugin:config.followers_enable,
+    name: Plugin:config.followers_name
   }
+]
 
-  if !c.auto {
-    renote_obj.visibility = c.visibility
+each (let data, CONFIG_DATA) {
+  if data.enable {
+    Plugin:register_note_action(`リノート： {data.name}`, @(note) {
+      Mk:api("notes/create", {
+        renoteId: note.id,
+        visibility: data.visibility
+      })
+    })
   }
-
-  Mk:api("notes/create", renote_obj)
-})
+}
