@@ -1,20 +1,19 @@
-# 指定の公開範囲にリノートするプラグイン
+# ホーム(or フォロワー)にリノートするプラグイン
 
 * TOC
 {:toc}
 
 ## 内容
-ノートメニューに【リノート：指定の公開範囲】を追加します。
+ノートメニューに【リノート：ホーム】・【リノート：フォロワー】を追加します。
 
 ## 使い方
 
 1. リノートしたいノートのメニューボタン(・・・)を押下
-2. 【リノート：指定の公開範囲】を押下。
-3. 指定した公開範囲でリノートされます。
+2. 【リノート：ホーム(or フォロワー)】を押下。
+3. ホーム(or フォロワー)でリノートされます。
 
-> [!TIP]  
-> 設定にて投稿範囲を設定できます。  
-> auto, public, home, followers  
+> [!TIP]
+> 各機能はプラグインの設定より「無効/有効」が設定可能です。
 
 ## ソース
 [renote_to_select_visibility.is](https://github.com/elysion-pre/MisskeyPlugins/blob/main/src/renote_to_select_visibility.is)
@@ -25,7 +24,7 @@
  - 準備中
 
 ### msk.kitazawa.me
-- [インストールする](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/renote_to_select_visibility.json&hash=e89a646f5a98b2939e4384562a557c0820ba8ac776156b8fdfddccdf1c10d397e8fc6411d3c32201774889e28e37eac35efb27845df2b9c897ab2e628d81a5cb)
+- [インストールする](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/renote_to_select_visibility.json&hash=02707526bb20ee511161bc0dc964817cdfca93302cddb23fb94023c6ff3fca4052b6ffc922a7e17b42d3810f0f8d0de7bac034351a0864a31e0df0246870a143)
 
 ----
 
