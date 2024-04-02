@@ -3,7 +3,7 @@
 - [入力されている文字をレインボーにするプラグイン](./page/text_to_rainbow.md)
 - [字体変換プラグイン](./page/font_convert.md)
 - [添付画像のファイル名を乱数化するプラグイン](./page/randomize_attachment_file_name.md)
-- [指定の投稿範囲にリノートするプラグイン](./page/renote_to_select_visibility.md)
+- [ホーム(or フォロワー)にリノートするプラグイン](./page/renote_to_select_visibility.md)
 - [ノートの内容をプレーンテキストで表示するプラグイン](./page/plain_text.md)
 
 ### taiy製Misskeyプラグイン
