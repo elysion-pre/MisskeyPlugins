@@ -2,3 +2,5 @@ theme: jekyll-theme-Modernist
 title: MisskeyPlugins
 description: プラグイン置き場
 markdown: kramdown
+kramdown: 
+ hard_wrap: true
