@@ -29,7 +29,7 @@
  - 準備中
 
 ### msk.kitazawa.me
-- [インストールする](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/insert_mfm.json&hash=df3cae31e74fc7d09c804be6d2b7d0d4d8bf745c7f84c687778a1dbec1caba86bb0c79f133727a3b191666d24ff30af34e4db93da48c97afc60f140194912d4c)
+- [インストールする](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/insert_mfm.json&hash=6e361a3042bd2e264c5d71d5146e1ef2c2ef6874ac417def48510d2f22806fd02a4d6fc771c086b0033134ea18c3bbc1631509778e3bec7fbeceb4254081d368)
 
 ----
 
