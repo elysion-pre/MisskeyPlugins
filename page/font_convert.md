@@ -30,7 +30,7 @@
  - 準備中
 
 ### msk.kitazawa.me
-- [インストールする](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/font_convert.json&hash=63a92590c05a62ab094355a3bc23b1925bca56e0c80370b16b3810676624dea5c9189b4e9a852df5855a72de170e908fc4d5efba3615cdb364dece09cbe9970f)
+- [インストールする](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/font_convert.json&hash=667ee3fb351f671d19ce7f77b8a89e6a60085eaf8d21c6d0fb6c6b415333945b645f5930cacd7ea013e28fdf5adf15f5076388efdbc58ee85180c27058d799fd)
 
 ----
 
