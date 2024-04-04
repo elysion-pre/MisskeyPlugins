@@ -20,6 +20,9 @@
 2. 各【変換：字体】を押下
 3. 押下した字体に変換されます
 
+> [!CAUTION]
+> 本プラグインはpagesに配置されているデータを使用しています。
+> 例:[フォント変換用json置き場](https://submarin.online/@elysion/pages/font_data)
 
 ## ソース
 [font_convert.is](https://github.com/elysion-pre/MisskeyPlugins/blob/main/src/font_convert.is)
