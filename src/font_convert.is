@@ -4,7 +4,7 @@
   name: "字体変換プラグイン"
   version: "1.0.0"
   author: "elysion"
-  description: "字体を変換するボタンを投稿メニューに追加します"
+  description: "投稿メニューに各【変換：字体】追加します。"
   config: {
     SERIF_B_enable: {
       type: "boolean"
@@ -237,8 +237,6 @@
   }
 }
 
-// pagesのjsonデータ読み込み
-// https://msk.kitazawa.me/@elysion/pages/font_data
 let FONT_LIST = eval {
   let pages_data = Mk:api("pages/show", {
     name: "font_data"
