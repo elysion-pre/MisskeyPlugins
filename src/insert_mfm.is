@@ -2,9 +2,9 @@
 ### {
   id: "2f8c02e8-2e8c-dca0-f4cd-ea302fdafbb2"
   name: "MFM挿入ボタンを追加するプラグイン"
-  version: "1.1.0"
+  version: "2.0.0"
   author: "elysion"
-  description: "MFM挿入ボタンを投稿メニューに追加します。"
+  description: "投稿メニューに各【挿入：MFM】を追加します。"
   config: {
     x2_enable: {
       type: "boolean"
@@ -375,63 +375,65 @@
   }
 }
 
-let config_data = [
-  [Plugin:config.x2_enable, Plugin:config.x2_name, Plugin:config.x2_arg]
-  [Plugin:config.position_enable, Plugin:config.position_name, Plugin:config.position_arg]
-  [Plugin:config.scale_enable, Plugin:config.scale_name, Plugin:config.scale_arg]
-  [Plugin:config.rotate_enable, Plugin:config.rotate_name, Plugin:config.rotate_arg]
-  [Plugin:config.flip_enable, Plugin:config.flip_name, Plugin:config.flip_arg]
-  [Plugin:config.bg_enable, Plugin:config.bg_name, Plugin:config.bg_arg]
-  [Plugin:config.fg_enable, Plugin:config.fg_name, Plugin:config.fg_arg]
-  [Plugin:config.rainbow_enable, Plugin:config.rainbow_name, Plugin:config.rainbow_arg]
-  [Plugin:config.sparkle_enable, Plugin:config.sparkle_name, Plugin:config.sparkle_arg]
-  [Plugin:config.blur_enable, Plugin:config.blur_name, Plugin:config.blur_arg]
-  [Plugin:config.bold_enable, Plugin:config.bold_name, Plugin:config.bold_arg]
-  [Plugin:config.italic_enable, Plugin:config.italic_name, Plugin:config.italic_arg]
-  [Plugin:config.strikethrough_enable, Plugin:config.strikethrough_name, Plugin:config.strikethrough_arg]
-  [Plugin:config.small_enable, Plugin:config.small_name, Plugin:config.small_arg]
-  [Plugin:config.center_enable, Plugin:config.center_name, Plugin:config.center_arg]
-  [Plugin:config.plain_enable, Plugin:config.plain_name, Plugin:config.plain_arg]
-  [Plugin:config.quote_enable, Plugin:config.quote_name, Plugin:config.quote_arg]
-  [Plugin:config.inlinecode_enable, Plugin:config.inlinecode_name, Plugin:config.inlinecode_arg]
-  [Plugin:config.codeblock_enable, Plugin:config.codeblock_name, Plugin:config.codeblock_arg]
-  [Plugin:config.clear_enable, Plugin:config.clear_name, Plugin:config.clear_arg]
+let CONFIG_DATA = [
+  {enable: Plugin:config.x2_enable, name: Plugin:config.x2_name, arg: Plugin:config.x2_arg},
+  {enable: Plugin:config.position_enable, name: Plugin:config.position_name, arg: Plugin:config.position_arg},
+  {enable: Plugin:config.scale_enable, name: Plugin:config.scale_name, arg: Plugin:config.scale_arg},
+  {enable: Plugin:config.rotate_enable, name: Plugin:config.rotate_name, arg: Plugin:config.rotate_arg},
+  {enable: Plugin:config.flip_enable, name: Plugin:config.flip_name, arg: Plugin:config.flip_arg},
+  {enable: Plugin:config.bg_enable, name: Plugin:config.bg_name, arg: Plugin:config.bg_arg},
+  {enable: Plugin:config.fg_enable, name: Plugin:config.fg_name, arg: Plugin:config.fg_arg},
+  {enable: Plugin:config.rainbow_enable, name: Plugin:config.rainbow_name, arg: Plugin:config.rainbow_arg},
+  {enable: Plugin:config.sparkle_enable, name: Plugin:config.sparkle_name, arg: Plugin:config.sparkle_arg},
+  {enable: Plugin:config.blur_enable, name: Plugin:config.blur_name, arg: Plugin:config.blur_arg},
+  {enable: Plugin:config.bold_enable, name: Plugin:config.bold_name, arg: Plugin:config.bold_arg},
+  {enable: Plugin:config.italic_enable, name: Plugin:config.italic_name, arg: Plugin:config.italic_arg},
+  {enable: Plugin:config.strikethrough_enable, name: Plugin:config.strikethrough_name, arg: Plugin:config.strikethrough_arg},
+  {enable: Plugin:config.small_enable, name: Plugin:config.small_name, arg: Plugin:config.small_arg},
+  {enable: Plugin:config.center_enable, name: Plugin:config.center_name, arg: Plugin:config.center_arg},
+  {enable: Plugin:config.plain_enable, name: Plugin:config.plain_name, arg: Plugin:config.plain_arg},
+  {enable: Plugin:config.quote_enable, name: Plugin:config.quote_name, arg: Plugin:config.quote_arg},
+  {enable: Plugin:config.inlinecode_enable, name: Plugin:config.inlinecode_name, arg: Plugin:config.inlinecode_arg},
+  {enable: Plugin:config.codeblock_enable, name: Plugin:config.codeblock_name, arg: Plugin:config.codeblock_arg},
+  {enable: Plugin:config.clear_enable, name: Plugin:config.clear_name, arg: Plugin:config.clear_arg}
 ]
 
-each let c config_data {
-  if (c[0]) {
-    Plugin:register_post_form_action(c[1], @(form, update) {
+each (let data, CONFIG_DATA) {
+  if (data.enable == true) {
+    Plugin:register_post_form_action(data.name, @(form, update) {
       var text = ""
-      if (c[2] == "**") {
-        text = `{c[2]}{form.text}{c[2]}`
-      } elif (c[2] == "i") {
-        text = `<{c[2]}>{form.text}</{c[2]}>`
-      } elif (c[2] == "~~") {
-        text = `{c[2]}{form.text}{c[2]}`
-      } elif (c[2] == "small") {
-        text = `<{c[2]}>{form.text}</{c[2]}>`
-      } elif (c[2] == "center") {
-        text = `<{c[2]}>{Str:lf}{form.text}{Str:lf}</{c[2]}>`
-      } elif (c[2] == "plain") {
-        text = `<{c[2]}>{form.text}</{c[2]}>`
-      } elif (c[2] == ">") {
-        text = `{c[2]} {form.text}`
-      } elif (c[2] == "`") {
-        text = `{c[2]}{form.text}{c[2]}`
-      } elif (c[2] == "```") {
-        text = `{c[2]}{Str:lf}{form.text}{Str:lf}{c[2]}`
-      } elif (c[2] == "clear") {
-        if (Plugin:config.clear_dialog_enable) {
-          if (Mk:confirm("確認", "入力内容を空にします。", "warn")) {
-            text = ""
-          } else {
-            return null
-          }
-        } else {
-          text = ""
+      match true {
+        (data.arg == "**" || data.arg == "~~" || data.arg == "`") => {
+          text = `{data.arg}{form.text}{data.arg}`
         }
-      } else {
-        text = `$[{c[2]} {form.text}]`
+        (data.arg == "i" || data.arg == "center" || data.arg == "small" || data.arg == "plain") => {
+          text = `<{data.arg}>{Str:lf}{form.text}{Str:lf}</{data.arg}>`
+        }
+        (data.arg == "```") => {
+          text = `{data.arg}{Str:lf}{form.text}{Str:lf}{data.arg}`
+        }
+        (data.arg == ">") => {
+          let textArray = form.text.split(Str:lf)
+          let lines = []
+          each (let array, textArray) {
+            lines.push(`{data.arg} {array}`)
+          }
+          text = lines.join(Str:lf)
+        }
+        (data.arg == "clear") => {
+          if (Plugin:config.clear_dialog_enable) {
+            if (Mk:confirm("確認", "入力内容を空にします。", "warn")) {
+              text = ""
+            } else {
+              return null
+            }
+          } else {
+            text = ""
+          }
+        }
+        * => {
+          text = `$[{data.arg} {form.text}]`
+        }
       }
       update("text", text)
     })
