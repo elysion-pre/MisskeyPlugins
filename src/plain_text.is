@@ -4,10 +4,10 @@
   name: "ノートの内容をプレーンテキストで表示するプラグイン"
   version: "2.0.0"
   author: "elysion"
-  description: "ノートの内容をプレーンテキストで表示するボタンをノートメニューに追加します。"
+  description: "ノートメニューに【表示：ノートの内容をプレーンテキストで見る】を追加します。"
 }
 
-Plugin:register_note_action("表示：ノートの内容をプレーンテキストで表示" @(note) {
+Plugin:register_note_action("表示：ノートの内容をプレーンテキストで見る" @(note) {
   Mk:dialog("ノート内容", [
     `<plain>`
     if (note.cw != null) note.cw
