@@ -26,7 +26,7 @@
  - 準備中
 
 ### msk.kitazawa.me
-- [インストールする](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/text_to_rainbow.json&hash=707406be62bb94e95b9c7c3261784818f05410696a23b7f1f421f8e30f423d8fadc7a62c71b34b083db9fa0b58b4d0fe61df10eda34da295244456aecb5e09c6)
+- [インストールする](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/text_to_rainbow.json&hash=e5c8bcff386512edd987484052280b3a9f214a9e6c1aa437f79f7b808ff56a736823ce05f6e340f640b0f876c15a8c3504bc17c9e402c9e69570fa3a9c8c19a5)
 
 ----
 
