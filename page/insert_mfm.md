@@ -1,8 +1,3 @@
----
-title: MFM挿入ボタンを追加するプラグイン
-tags: post mfm
----
-
 # MFM挿入ボタンを追加するプラグイン
 
 * TOC
