@@ -24,6 +24,10 @@
 ### 表示関連
 - [ノートの内容をプレーンテキストで表示するプラグイン](./page/plain_text.md)
 
+## Submarin.online専用プラグイン
+### 文字列変換関連
+- [ひらがなをカスタム絵文字に変換するプラグイン](./page/submarin/convert_custom_emoji.md)
+
 ## taiy製Misskeyプラグイン
 - [パクるプラグイン](./page/pakuru.md)
 - [数字引用プラグイン](./page/numberquote.md)
