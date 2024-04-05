@@ -3,5 +3,7 @@ title: MisskeyPlugins
 description: プラグイン置き場
 markdown: kramdown
 kramdown:
- inpu: GFM
- hard_wrap: true
+  input: GFM
+  hard_wrap: true
+plugins:
+  - jekyll-seo-tag
