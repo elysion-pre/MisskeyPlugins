@@ -1,6 +1,6 @@
 ---
 title: MFM挿入ボタンを追加するプラグイン
-tags: mfm, post
+tags: post mfm
 ---
 
 # MFM挿入ボタンを追加するプラグイン
