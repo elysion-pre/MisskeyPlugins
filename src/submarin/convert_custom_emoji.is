@@ -1,0 +1,34 @@
+/// @ 0.16.0
+### {
+  id: "f05a813f-dac2-dd6b-0925-2026bc0b6836"
+  name: "ひらがなをカスタム絵文字に変換するプラグイン"
+  version: "2.0.0"
+  author: "elysion"
+  description: "投稿メニューに【変換：ひらがなをカスタム絵文字にする】を追加します。"
+}
+
+let json_data = eval {
+  let pages_data = Mk:api("pages/show", {
+    name: "convert_custom_emoji_data"
+    username: "elysion"
+  })
+  if (Core:type(pages_data) == "error") {
+    Mk:dialog(pages_data.name, [
+      pages_data.info.message
+      `プラグイン用のpagesデータが見つかりませんでした。`
+    ].join(Str:lf), "warning")
+    null
+  } else {
+    Json:parse(pages_data.content[0].text)
+  }  
+}
+
+if (json_data != null) {
+  Plugin:register_post_form_action("変換：ひらがなをカスタム絵文字にする", @(form, update) {
+    var text = form.text
+    each (let data, json_data.CONVERT_CUSTOM_EMOJI_DATA) {
+      text = text.replace(data[0], data[1])
+    }
+    update("text", text)
+  })
+}

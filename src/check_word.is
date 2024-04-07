@@ -1,0 +1,112 @@
+/// @ 0.16.0
+### {
+  id: "fefc1788-de2a-4725-85ca-4078be19038a"
+  name: "ワード検知で投稿内容を強制変更するプラグイン"
+  version: "1.0.0"
+  author: "elysion"
+  description: "ワード検知でcw・公開範囲・連合なし等を強制変更(ダイレクト投稿は無視)"
+  config: {
+    words: {
+      type: "string"
+      label: "検知ワード"
+      description: "検知ワード(複数指定は半角カンマ区切り)"
+      default: "うんこ,ちんちん"
+    }
+    cw_enable: {
+      type: "boolean"
+      label: "cw：ワード検知時のON/OFF"
+      description: "既定値：ON(ON:cwあり,OFF:cwなし)"
+      default: true
+    }
+    cw: {
+      type: "string"
+      label: "注釈：ワード検知時の注釈に挿入するテキスト(空白・空文字はNG)"
+      description: "既定値：cw(自動)(元ノートにCWが未設定のみ挿入されます)"
+      default: "cw(自動)"
+    }
+    visibility_enable: {
+      type: "boolean"
+      label: "公開範囲：ワード検知時のON/OFF"
+      description: "既定値：ON(公開範囲に指定されている公開範囲に変更)"
+      default: true
+    }
+    visibility: {
+      type: "string"
+      label: "公開範囲"
+      description: "既定値：followers(home,followers等)"
+      default: "followers"
+    }
+    localonly_enable: {
+      type: "boolean"
+      label: "連合なし：ワード検知時のON/OFF"
+      description: "既定値：ON(ON:連合なし,OFF:連合あり)"
+      default: true
+    }
+  }
+}
+
+@remove_null_property(object) {
+  if Core:type(object) != 'obj' {
+    return object
+  }
+  let new_obj = {}
+  each let kv, Obj:kvs(object) {
+    let v = remove_null_property(kv[1])
+    if Core:type(v) != 'null' {
+      Obj:set(new_obj, kv[0], v)
+    }
+  }
+  return new_obj
+}
+
+Plugin:register_note_post_interruptor(@(note) {
+  if (note.visibility == "specified") {
+    return remove_null_property(note)
+  }
+  var hit = false
+
+  let words = Plugin:config.words.trim().split(",")
+  each (let word, words) {
+    if (note.text.incl(word)) {
+      hit = true
+    }
+  }
+
+  if (hit) {
+    if (Plugin:config.cw_enable) {
+      if (note.cw == null) {
+        if (Plugin:config.cw.trim().len == 0) {
+          Mk:dialog("", [
+            "注釈の記述がないため、"
+            "自動的に「cw(自動)」を挿入します。"
+            "<small>注釈の文言を変更したい場合はプラグインの設定より変更ください</small>"
+          ].join(Str:lf), "warning")
+          note.cw = "cw(自動)"
+        } else {
+          note.cw = Plugin:config.cw
+        }
+      }
+    }
+    if (Plugin:config.localonly_enable) {
+      note.localOnly = true
+    }
+    if (Plugin:config.visibility_enable) {
+      var visibility = ""
+      match Plugin:config.visibility {
+        "public" => { visibility = "public" }
+        "home" => { visibility = "home" }
+        "followers" => { visibility = "followers" }
+        * => {
+          Mk:dialog("", [
+            "設定された投稿範囲が無効のため、"
+            "自動的に「フォロワー」で投稿します。"
+            "<small>投稿範囲を変更したい場合はプラグインの設定より変更ください</small>"
+          ].join(Str:lf), "warning")
+          visibility = "followers"
+        }
+      }
+      note.visibility = visibility
+    }
+  }
+  return remove_null_property(note)
+})
