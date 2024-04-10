@@ -26,7 +26,7 @@
 ## インストール
 
 ### submarin.online
- - 準備中
+- [インストールする](https://submarin.online/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/insert_mfm.json&hash=6e361a3042bd2e264c5d71d5146e1ef2c2ef6874ac417def48510d2f22806fd02a4d6fc771c086b0033134ea18c3bbc1631509778e3bec7fbeceb4254081d368)
 
 ### msk.kitazawa.me
 - [インストールする](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/insert_mfm.json&hash=6e361a3042bd2e264c5d71d5146e1ef2c2ef6874ac417def48510d2f22806fd02a4d6fc771c086b0033134ea18c3bbc1631509778e3bec7fbeceb4254081d368)
