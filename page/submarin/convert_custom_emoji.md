@@ -25,7 +25,7 @@
 ## インストール
 
 ### submarin.online
-- [インストールする](https://submarin.online/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/convert_custom_emoji.json&hash=c574cce0d0bc1cfc0ca202bd564a5357e5bc6e4b034b545bc9cf9469764ef725a0d95be4607cd84f5fbd5585c48e4615892066a650b43338ef64d495c9ee4b24)
+- [インストールする](https://submarin.online/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/convert_custom_emoji.json&hash=39fec345e97cbe527b485d2619bc8c876bb6f271f7a793c2edeb7050e59fefd57675071ee0d1ebd31789b86351b0c9b9eec99f6944e7be780d2e53c279f7a7a7)
 
 ----
 
