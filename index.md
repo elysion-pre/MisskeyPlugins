@@ -1,7 +1,7 @@
 ## プラグイン置き場
 
 ### 質問・要望など
-https://submarin.online/@elysion
+[https://submarin.online/@elysion](https://submarin.online/@elysion)
 
 ### 免責
 プラグインの導入は自己責任でお願いします。
