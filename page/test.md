@@ -1,4 +1,4 @@
-# ノートの内容をプレーンテキストで表示するプラグイン
+# テストプラグイン
 
 * TOC
 {:toc}
@@ -34,7 +34,3 @@
 <div id="shareLink" style="margin-top: 20px;"></div>
 
 <script src="scripts/share.js"></script>
-
-----
-
-[サイトのトップ]({{ site.baseurl }})
