@@ -14,6 +14,13 @@ function createMisskeyShareLink(jsonUrl, text) {
     const shareLinkDiv = document.getElementById('shareLink');
     shareLinkDiv.innerHTML = `
         <p>Misskey共有リンク:</p>
-        <a href="${installUrl}" target="_blank">Misskeyで共有</a>
+        <a href="${installUrl}" target="_blank" id="shareLinkButton">Misskeyで共有</a>
     `;
+
+    // リンクをクリックした時の処理を追加
+    const shareLinkButton = document.getElementById('shareLinkButton');
+    shareLinkButton.addEventListener('click', function(event) {
+        event.preventDefault(); // デフォルトの動作をキャンセル
+        window.open(installUrl, '_blank'); // 新しいウィンドウでリンクを開く
+    });
 }
