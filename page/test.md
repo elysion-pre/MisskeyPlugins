@@ -28,12 +28,13 @@
 # test
 
 ドメインを入力してください:
-<input type="text" id="domainInput" placeholder="submarin.online">
-<button onclick="createMisskeyShareLink('ea380a154b41e9790ea78fdd0fa8a4672591d6eb10c582c24196394c0b777742aee2a08172477735a67338b9174ba89a8ecba9f7750d9c558559d76d7c8241df')">リンク生成</button>
+<input type="text" id="domainInput" placeholder="misskey.io">
+<button onclick="createMisskeyShareLink('https://elysion-pre.github.io/MisskeyPlugins/json/plain_text.json', 'ea380a154b41e9790ea78fdd0fa8a4672591d6eb10c582c24196394c0b777742aee2a08172477735a67338b9174ba89a8ecba9f7750d9c558559d76d7c8241df')">リンク生成</button>
 
 <div id="shareLink" style="margin-top: 20px;"></div>
 
 <script src="scripts/share.js"></script>
+
 ----
 
 [サイトのトップ]({{ site.baseurl }})
