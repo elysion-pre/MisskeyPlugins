@@ -46,6 +46,7 @@
 
 ### misskey.stream
 - [インストールする](https://misskey.stream/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/check_word.json&hash=00e693bf17ec0f34937dca09c2fb295f3b09a634ca0e4eb90d4f45e9ebfe3be7e7cfab74679c81b11ca38626e5f588defa5ff7cc029c11c692a0db937dbdba7e)
+
 ----
 
 [サイトのトップ]({{ site.baseurl }})
