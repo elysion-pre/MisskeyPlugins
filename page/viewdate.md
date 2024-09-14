@@ -1,5 +1,8 @@
 # 投稿時刻を表示するプラグイン(aiscript0.12.4以降対応版)
 
+## 引用元
+[taiy製Misskeyプラグイン](https://gist.github.com/taiyme/94c1ebb9d867c626a87bbb6a08b3662d)
+
 ## 内容
 ノートメニューに【投稿時刻を表示】を追加します。
 
