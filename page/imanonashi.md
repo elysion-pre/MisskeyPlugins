@@ -1,5 +1,8 @@
 # いまのなし(aiscript0.12.4移植版)
 
+## 引用元
+[taiy製Misskeyプラグイン](https://gist.github.com/taiyme/94c1ebb9d867c626a87bbb6a08b3662d)
+
 ## 内容
 消せ消せ消せ消せ消せ
 
