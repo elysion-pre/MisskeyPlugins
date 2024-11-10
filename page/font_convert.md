@@ -38,6 +38,9 @@
 ### misskey.stream
 - [インストールする](https://misskey.stream/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/font_convert.json&hash=667ee3fb351f671d19ce7f77b8a89e6a60085eaf8d21c6d0fb6c6b415333945b645f5930cacd7ea013e28fdf5adf15f5076388efdbc58ee85180c27058d799fd)
 
+### mi.kochudaho.me
+- [インストールする](https://mi.kochudaho.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/font_convert.json&hash=667ee3fb351f671d19ce7f77b8a89e6a60085eaf8d21c6d0fb6c6b415333945b645f5930cacd7ea013e28fdf5adf15f5076388efdbc58ee85180c27058d799fd)
+
 ----
 
 [サイトのトップ]({{ site.baseurl }})
