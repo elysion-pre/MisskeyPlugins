@@ -1,0 +1,39 @@
+/// @ 0.19.0
+### {
+  id: "01f6a732-8905-5464-745e-caba207ba14e"
+  name: "入力されている文字、1文字ずつに『特定の文字』を追加するプラグイン"
+  version: "1.0.0"
+  author: "elysion"
+  description: "投稿メニューに【変換：1文字ずつに特定の文字を追加】を追加します。"
+  config: {
+    insertString: {
+      type: "string"
+      label: "1文字以上は1文字目が適用されます"
+      description: "既定値：゛"
+      default: "゛"
+    }
+  }
+}
+
+let c = {}
+c.insertString = Plugin:config.insertString
+if c.insertString.len == 0 {
+  Mk:dialog("エラー", [
+    `挿入する文字がありません。`
+    `既定値の **゛** が適用されます。`
+  ].join(Str:lf), "warning")
+} else if c.insertString.len > 1 {
+  c.insertString = c.insertString.pick(0)
+  Mk:dialog("エラー", [
+    `挿入する文字が1文字以上です。`
+    `自動で一文字目の **{c.insertString}** が適用されます。`
+  ].join(Str:lf), "warning")
+}
+
+Plugin:register_post_form_action(`変換：1文字ずつに『{c.insertString}』を追加`, @(form, update) {
+  let conv_text = form.text.split().map(@(v) {
+    if v != Str:lf `{v}{c.insertString}` else v
+  })
+
+  update("text", conv_text.join())
+})
