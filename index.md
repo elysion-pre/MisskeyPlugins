@@ -2,6 +2,7 @@
 
 ### 質問・要望など
 [https://submarin.online/@elysion](https://submarin.online/@elysion)
+[https://msk.kitazawa.me/@elysion](https://msk.kitazawa.me/@elysion)
 
 ### 免責
 プラグインの導入は自己責任でお願いします。
