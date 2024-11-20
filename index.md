@@ -17,6 +17,7 @@
 - [MFM挿入ボタンを追加するプラグイン](./page/insert_mfm.md)
 - [入力されている文字をレインボーにするプラグイン](./page/text_to_rainbow.md)
 - [字体変換プラグイン](./page/font_convert.md)
+- [入力されている文字、1文字ずつに『特定の文字』を追加するプラグイン](./page/insert_word.md)
 
 ### 投稿内容強制変更
 - [ワード検知で投稿内容を強制変更するプラグイン](./page/check_word.md)
