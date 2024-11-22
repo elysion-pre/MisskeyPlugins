@@ -1,0 +1,32 @@
+/// @ 0.19.0
+### {
+  id: "a60d1db9-362b-e9eb-bbaf-6c38e5fe88d4"
+  name: "リアクションを送信するプラグイン"
+  version: "2.0.0"
+  author: "elysion"
+  description: "ノートメニューに【リアクション：指定のリアクション】を追加します。"
+  permissions: ["write:reactions"]
+  config: {
+    reactions: {
+      type: "string"
+      label: "ノートメニューに表示させるリアクション"
+      description: "表示名[半角スペース]挿入するリアクション,複数入力はカンマ区切りで入力)"
+      default: "おしり :oshiri:,ぽ :po_hiragana:,いいね 👍,ハート ❤,🍮 🍮,"
+    }
+  }
+}
+
+let reactions = Plugin:config.reactions.split(",").map(@(v) {
+  v.split(" ")
+})
+
+each (let reaction, reactions) {
+  if reaction[0] != null && reaction[0] != "" {
+    Plugin:register_note_action(`リアクション：{reaction[0]}({reaction[1]})` @(note) {
+      Mk:api("notes/reactions/create", {
+        noteId: note.id,
+        reaction: reaction[1]
+      })
+    })
+  }
+}
