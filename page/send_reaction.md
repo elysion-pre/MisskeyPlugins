@@ -20,7 +20,7 @@
 
 1. リアクションを送信したいノートのメニューボタン(・・・)を押下
 2. 【リアクション：指定のリアクション】を押下
-3. ノートへ表リアクションが送信されます  
+3. ノートへ指定したリアクションが送信されます  
 
 ## ソース
 [send_reaction.is](https://github.com/elysion-pre/MisskeyPlugins/blob/main/src/send_reaction.is)
