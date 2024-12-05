@@ -86,17 +86,7 @@
 
 ## インストール
 
-### submarin.online
-- [インストールする](https://submarin.online/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/gone_follower_notification.json&hash=1f80be46706b91e2f959621efb4c5433b18fa3f5f00f45aeba6a4b77157c0118d0093c7329228c81c441bda48f561474cd5259ecc4fcf999e1ea5d5d3eb049e0)
-
-### msk.kitazawa.me
-- [インストールする](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/gone_follower_notification.json&hash=1f80be46706b91e2f959621efb4c5433b18fa3f5f00f45aeba6a4b77157c0118d0093c7329228c81c441bda48f561474cd5259ecc4fcf999e1ea5d5d3eb049e0)
-
-### misskey.stream
-- [インストールする](https://misskey.stream/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/gone_follower_notification.json&hash=1f80be46706b91e2f959621efb4c5433b18fa3f5f00f45aeba6a4b77157c0118d0093c7329228c81c441bda48f561474cd5259ecc4fcf999e1ea5d5d3eb049e0)
-
-### mi.kochudaho.me
-- [インストールする](https://mi.kochudaho.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/gone_follower_notification.json&hash=1f80be46706b91e2f959621efb4c5433b18fa3f5f00f45aeba6a4b77157c0118d0093c7329228c81c441bda48f561474cd5259ecc4fcf999e1ea5d5d3eb049e0)
+{% include installer.html pluginName="gone_follower_notification" hash="1f80be46706b91e2f959621efb4c5433b18fa3f5f00f45aeba6a4b77157c0118d0093c7329228c81c441bda48f561474cd5259ecc4fcf999e1ea5d5d3eb049e0" %}
 
 ----
 

@@ -1,0 +1,179 @@
+<style>
+    .form {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        height: fit-content;
+        margin-bottom: 1.5em;
+    }
+
+    .input {
+        flex-grow: 1;
+        padding: 5px;
+        margin-right: 1em;
+        font-size: 1.2em;
+        border-radius: 5px;
+    }
+
+    .submit-btn {
+        flex-grow: 0;
+        padding: 5px 10px;
+        font-size: 1.2em;
+        background: linear-gradient(#77B9FB, #3782CD);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        align-items: center;
+    }
+
+    .submit-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+
+    .submit-btn:not(:disabled):hover {
+        background: linear-gradient(#3782CD, #77B9FB);
+    }
+
+    .reset-btn {
+        padding: 5px 10px;
+        font-size: 1.2em;
+        background: linear-gradient(#fb7777, #cd3737);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        align-items: center;
+        margin-left: 0.8em;
+    }
+
+    .reset-btn:hover {
+        background: linear-gradient(#cd3737, #fb7777);
+    }
+</style>
+
+<form id="pulgin-installer" class="form">
+    <select id="server-selector" class="input">
+        <option value="" selected disabled>インストールするサーバーを選択</option>
+    </select>
+    <button type="submit" id="submit-install" class="submit-btn" disabled>インストールする</button>
+</form>
+
+<h3>その他のサーバーを追加</h3>
+<form id="insert-other-server" class="form">
+    <input type="text" id="other-server" class="input" placeholder="サーバー名を入力">
+    <button type="submit" id="submit-add-server" class="submit-btn" disabled>追加</button>
+    <button type="button" id="reset-servers" class="reset-btn">リセット</button>
+</form>
+
+<script>
+    const pluginName = "{{ include.pluginName }}";
+    const hash = "{{ include.hash }}";
+    
+    const getServers = () => {
+        const rawServers = localStorage.getItem("servers");
+        let servers = [];
+        try {
+            const result = JSON.parse(rawServers);
+            if (Array.isArray(result) && result.length > 0 && result.every((v) => typeof v === "string")) {
+                servers = result;
+            }
+        } catch (e) {
+            console.error(e);
+        }
+        if (servers.length < 1) {
+            servers = ["submarin.online", "msk.kitazawa.me", "misskey.stream", "mi.kochudaho.me"];
+        }
+
+        return servers;
+    }
+
+    const servers = getServers();
+    const serverSelector = document.getElementById("server-selector");
+    servers.forEach((server) => {
+        const option = document.createElement("option");
+        option.value = server;
+        option.textContent = server;
+        serverSelector.appendChild(option);
+    });
+
+    document.getElementById("pulgin-installer").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const server = document.getElementById("server-selector").value;
+        if (server === "") {
+            alert("サーバーを選択してください");
+            return;
+        }
+        if (!getServers().includes(server)) {
+            alert("不正なサーバーです");
+            return;
+        }
+        if (pluginName === "") {
+            alert("プラグイン名が取得できませんでした");
+            return;
+        }
+        if (hash === "") {
+            alert("ハッシュが取得できませんでした");
+            return;
+        }
+        const targetUrl = `https://${server}/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/${pluginName}.json&hash=${hash}`;
+
+        const a = document.createElement("a");
+        a.href = targetUrl;
+        a.target = "_blank";
+        a.setAttribute("rel", "noopener noreferrer");
+        
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+
+    document.getElementById("server-selector").addEventListener("change", (e) => {
+        e.preventDefault();
+
+        const server = document.getElementById("server-selector").value;
+        document.getElementById("submit-install").disabled = server === "";
+    });
+
+    document.getElementById("insert-other-server").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const server = document.getElementById("other-server").value;
+        if (server === "") {
+            alert("サーバーを入力してください");
+            return;
+        }
+        if (getServers().includes(server)) {
+            alert("すでに追加されています");
+            return;
+        }
+        servers.push(server);
+        localStorage.setItem("servers", JSON.stringify(servers));
+
+        const option = document.createElement("option");
+        option.value = server;
+        option.textContent = server;
+        serverSelector.appendChild(option);
+
+        document.getElementById("other-server").value = "";
+        document.getElementById("submit-add-server").disabled = true;
+
+        alert("サーバーを追加しました");
+    });
+
+    document.getElementById("other-server").addEventListener("input", (e) => {
+        e.preventDefault();
+
+        const server = document.getElementById("other-server").value;
+        document.getElementById("submit-add-server").disabled = server === "";
+    });
+
+    document.getElementById("reset-servers").addEventListener("click", (e) => {
+        e.preventDefault();
+
+        localStorage.removeItem("servers");
+        location.reload();
+    });
+</script>

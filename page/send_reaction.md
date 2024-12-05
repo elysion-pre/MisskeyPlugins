@@ -27,18 +27,7 @@
 
 ## インストール
 
-### submarin.online
-- [インストールする](https://submarin.online/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/send_reaction.json&hash=633af301935be1da6d83a40f810fef7bca5a2a127df5acc60aa00d9ebdfb5c174dc8485c82a213ca17f446f12c8ecb12b86587a3c4c84f158b4f4c5ac8e6f0c6)
-
-
-### msk.kitazawa.me
-- [インストールする](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/send_reaction.json&hash=633af301935be1da6d83a40f810fef7bca5a2a127df5acc60aa00d9ebdfb5c174dc8485c82a213ca17f446f12c8ecb12b86587a3c4c84f158b4f4c5ac8e6f0c6)
-
-### misskey.stream
-- [インストールする](https://misskey.stream/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/send_reaction.json&hash=633af301935be1da6d83a40f810fef7bca5a2a127df5acc60aa00d9ebdfb5c174dc8485c82a213ca17f446f12c8ecb12b86587a3c4c84f158b4f4c5ac8e6f0c6)
-
-### mi.kochudaho.me
-- [インストールする](https://mi.kochudaho.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/send_reaction.json&hash=633af301935be1da6d83a40f810fef7bca5a2a127df5acc60aa00d9ebdfb5c174dc8485c82a213ca17f446f12c8ecb12b86587a3c4c84f158b4f4c5ac8e6f0c6)
+{% include installer.html pluginName="send_reaction" hash="633af301935be1da6d83a40f810fef7bca5a2a127df5acc60aa00d9ebdfb5c174dc8485c82a213ca17f446f12c8ecb12b86587a3c4c84f158b4f4c5ac8e6f0c6" %}
 
 ----
 
