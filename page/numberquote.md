@@ -11,14 +11,4 @@
 
 ## インストール
 
-### submarin.online
-- [インストールする](https://submarin.online/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/numberquote.json&hash=730d8376fb547954d560bed25bf6a81f62beae2c3cc3ecfb273cf277d73726a9d2dffa413d45800af83e9facf225386bdf80d71e9c538b5b9b718bcf438b5c50)
-
-### msk.kitazawa.me
-- [インストールする](https://msk.kitazawa.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/numberquote.json&hash=730d8376fb547954d560bed25bf6a81f62beae2c3cc3ecfb273cf277d73726a9d2dffa413d45800af83e9facf225386bdf80d71e9c538b5b9b718bcf438b5c50)
-
-### misskey.stream
-- [インストールする](https://misskey.stream/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/numberquote.json&hash=730d8376fb547954d560bed25bf6a81f62beae2c3cc3ecfb273cf277d73726a9d2dffa413d45800af83e9facf225386bdf80d71e9c538b5b9b718bcf438b5c50)
-
-### mi.kochudaho.me
-- [インストールする](https://mi.kochudaho.me/install-extentions?url=https://elysion-pre.github.io/MisskeyPlugins/json/numberquote.json&hash=730d8376fb547954d560bed25bf6a81f62beae2c3cc3ecfb273cf277d73726a9d2dffa413d45800af83e9facf225386bdf80d71e9c538b5b9b718bcf438b5c50)
+{% include installer.html pluginName="numberquote" hash="730d8376fb547954d560bed25bf6a81f62beae2c3cc3ecfb273cf277d73726a9d2dffa413d45800af83e9facf225386bdf80d71e9c538b5b9b718bcf438b5c50" %}
