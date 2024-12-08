@@ -1,4 +1,4 @@
-# フォロワー消失を通知するプラグイン(β)
+# フォロワー消失を通知するプラグイン
 
 * TOC
 {:toc}
@@ -13,6 +13,7 @@
 - アカウント削除
 - ブロック(したorされた)
 - リムーブされた
+- 凍結
 
 上記、自分のフォロワーからいなくなったものが通知対象  
 
@@ -81,12 +82,16 @@
 アカウント削除後にサーバーのサービスが終了した  
 ※メモは前回保存した時点のものを表示  
 
+8.凍結
+> アカウント名  
+> 　状態: 凍結されています  
+
 ## ソース
 [gone_follower_notification.is](https://github.com/elysion-pre/MisskeyPlugins/blob/main/src/gone_follower_notification.is)
 
 ## インストール
 
-{% include installer.html pluginName="gone_follower_notification" hash="1f80be46706b91e2f959621efb4c5433b18fa3f5f00f45aeba6a4b77157c0118d0093c7329228c81c441bda48f561474cd5259ecc4fcf999e1ea5d5d3eb049e0" %}
+{% include installer.html pluginName="gone_follower_notification" hash="b80604e5ed884b049d0d537a40a01351ffe1b9703b6ef94976460db527afb8944a479daf41608a188639a2656cdca781d1416b2ca330f27d3b83b87406032e85" %}
 
 ----
 
