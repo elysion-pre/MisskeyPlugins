@@ -1,8 +1,8 @@
 /// @ 0.19.0
 ### {
   id: "0cfcb096-284c-d087-b364-53e16d356d1b"
-  name: "フォロワー消失を通知するプラグイン(β)"
-  version: "0.1.0"
+  name: "フォロワー消失を通知するプラグイン"
+  version: "1.0.0"
   author: "elysion"
   description: "フォロワーが消失していたら通知します。"
   permissions: ["read:account", "read:following", "write:notifications"]
@@ -29,28 +29,23 @@
 }
 
 // フォロワー取得
-// param: limit<num>
 // return: <arr>
-@getFollowers(limit) {
-  let func = @(limit, params) {
-    if (params.limit <= 0) {
-      return []
-    }
-    let followers = Mk:api("users/followers", params)
-    if (followers.len < params.limit) {
-      return followers
-    }
-    limit -= params.limit
-    return followers.concat(func(limit, {
-      userId: params.userId,
-      limit: Math:min(limit, 100),
-      untilId: followers[followers.len - 1].id
-    }))
+@getFollowers() {
+  var followers = []
+  var last_id = "0000000000"
+  loop {
+    let works = Mk:api("users/followers", {
+      userId: USER_ID,
+      limit: 100,
+      sinceId: last_id
+    })
+    if works.len == 0 break
+    
+    followers = followers.concat(works)
+    last_id = works[works.len - 1].id
+    if works.len < 100 break
   }
-  return func(limit, {
-    userId: USER_ID,
-    limit: Math:min(limit, 100)
-  })
+  return followers
 }
 
 // サーバーの状況確認
@@ -83,7 +78,7 @@
 
 let interval = eval {
   if Plugin:config.intervalMin < 10 {
-    Mk:dialog("フォロワー消失を通知するプラグイン(β)", [
+    Mk:dialog("フォロワー消失を通知するプラグイン", [
       `更新間隔の指定に誤りがあります。`
       `自動で **{10}** が適用されます。`
     ].join(Str:lf), "warning")
@@ -92,10 +87,6 @@ let interval = eval {
 }
 
 Async:interval(interval, @() {
-  // ユーザー
-  let user = Mk:api("users/show", {
-    userId: USER_ID
-  })
   // 旧フォロワーリスト
   var old_followers = null
   // 新フォロワーリスト
@@ -110,7 +101,7 @@ Async:interval(interval, @() {
 
   if old_followers != null && old_followers != "" {
     // 現在のフォロワーを取得
-    new_followers = getFollowers(user.followersCount).map(@(v) {
+    new_followers = getFollowers().map(@(v) {
       {
         id: v.follower.id,
         name: v.follower.name,
@@ -122,7 +113,7 @@ Async:interval(interval, @() {
   } else {
     // 初回動作
     // 現在のフォロワーを取得
-    old_followers = getFollowers(user.followersCount).map(@(v) {
+    old_followers = getFollowers().map(@(v) {
       {
         id: v.follower.id,
         name: v.follower.name,
@@ -132,7 +123,7 @@ Async:interval(interval, @() {
       }
     })
     // 現在のフォロワーを取得
-    new_followers = getFollowers(user.followersCount).map(@(v) {
+    new_followers = getFollowers().map(@(v) {
       {
         id: v.follower.id,
         name: v.follower.name,
@@ -146,9 +137,9 @@ Async:interval(interval, @() {
   Mk:save(`@{USER_ID}/follower_data`, new_followers)
 
   // 新旧フォロワー情報の差分
-  let gone_followers = old_followers.filter(@(old) {
-    let fExists = new_followers.some(@(new) {
-      return old.id == new.id
+  let gone_followers = old_followers.filter(@(old_follower) {
+    let fExists = new_followers.some(@(new_follower) {
+      return old_follower.id == new_follower.id
     })
     return !fExists
   })
@@ -180,21 +171,26 @@ Async:interval(interval, @() {
         if gone_follower_user.isFollowed contonue
         // プラグイン設定のブロックした際の通知がOFFの場合は除外
         if gone_follower_user.isBlocking && !fBlockingNotify continue
-
-        // 現在のあなたとの状態確認
-        if gone_follower_user.isBlocked {
-          if gone_follower_user.isBlocking {
-            account_status = "相互ブロック"
-          } else {
-            account_status = "ブロックされています"
-          }
-        } else if gone_follower_user.isBlocking {
-          account_status = "ブロックしています"
+        
+        // 凍結確認
+        if gone_follower_user.isSuspended {
+          account_status = "凍結されています"
         } else {
-          if gone_follower_user.isFollowing {
-            account_status = "リムーブ(片思い)"
+          // 現在のあなたとの状態確認
+          if gone_follower_user.isBlocked {
+            if gone_follower_user.isBlocking {
+              account_status = "相互ブロック"
+            } else {
+              account_status = "ブロックされています"
+            }
+          } else if gone_follower_user.isBlocking {
+            account_status = "ブロックしています"
           } else {
-            account_status = "リムーブ(無関心)"
+            if gone_follower_user.isFollowing {
+              account_status = "リムーブ(片思い)"
+            } else {
+              account_status = "リムーブ(無関心)"
+            }
           }
         }
         // ユーザーのホストの状況確認
@@ -213,7 +209,7 @@ Async:interval(interval, @() {
     if notifyBodyMfm.len > 0 {
       // 通知の送信
       Mk:api("notifications/create", {
-        header: "フォロワー消失通知(β)",
+        header: "フォロワー消失通知",
         body: notifyBodyMfm.join(Str:lf),
         icon: `{SERVER_URL}/twemoji/1f44b.svg`
       })

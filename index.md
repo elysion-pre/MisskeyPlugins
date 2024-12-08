@@ -35,6 +35,9 @@
 ### 表示
 - [ノートの内容をプレーンテキストで表示するプラグイン](./page/plain_text.md)
 
+### 通知
+- [フォロワー消失を通知するプラグイン](./page/gone_follower_notification.md)
+
 ## Submarin.online専用プラグイン
 ### 文字列変換
 - [ひらがなをカスタム絵文字に変換するプラグイン](./page/submarin/convert_custom_emoji.md)
