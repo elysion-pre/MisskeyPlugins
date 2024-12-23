@@ -51,6 +51,22 @@
     .reset-btn:hover {
         background: linear-gradient(#cd3737, #fb7777);
     }
+
+    @media screen and (max-width: 768px) {
+        .form {
+            flex-direction: column;
+        }
+
+        .input {
+            margin-right: 0;
+            margin-bottom: 0.5em;
+        }
+
+        .reset-btn {
+            margin-top: 0.5em;
+            margin-left: 0;
+        }
+    }
 </style>
 
 <form id="pulgin-installer" class="form">
